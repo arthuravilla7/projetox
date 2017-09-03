@@ -1,0 +1,16 @@
+{
+  "name": "app-teste",
+  "version": "1.0.0",
+  "description": "testando uma aplicacao nodejs",
+  "main": "loader.js",
+  "scripts": {
+    "dev": "nodemon",
+    "production": "pm2 start loader.js --name backend"
+  },
+  "author": "Arthur Avilla",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4"
+  }
+}
