@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "production": "pm2 start loader.js --name backend",
-     "start": "loader.js"
+     "start": "node loader.js"
   },
   "author": "Arthur Avilla",
   "license": "ISC",
