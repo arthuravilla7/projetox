@@ -9,6 +9,8 @@ server.use(bodyParser.urlencoded({ extended: true}));
 server.use(bodyParser.json()); //parse de requisicoes com json como parametro
 server.use(allowCors)//habilita o cors
 
+server.use(express.static('public'));
+
 server.listen(port, function(){
   console.log('Backend is running on port ' + port + '.');
 });
