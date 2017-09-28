@@ -1,15 +1,16 @@
-const profissao = require('../model/profissao')
+const db = require('../../config/database');
 
-profissao.obterTodos = function(req, res, next){
-    profissao.findAll().then(function(result){
+db.profissao.obterTodos = function(req, res, next){
+    db.profissao.findAll({
+    }).then(function(result){
       res.status(200).json(result)
     }, function(error){
       console.log(error);
     })
 }
 
-profissao.alterar = function(req, res, next){
-    profissao.update({
+db.profissao.alterar = function(req, res, next){
+    db.profissao.update({
         nome: req.body.nome,
         descricao: req.body.descricao
     },  {
@@ -26,13 +27,13 @@ profissao.alterar = function(req, res, next){
     })
 }
 
-profissao.salvar = function(req, res, next){
-    profissao.create(req.body).then(function(result){
+db.profissao.salvar = function(req, res, next){
+    db.profissao.create(req.body).then(function(result){
       res.status(200).json(result);
     }, function(error){
       console.log(error);
     })
 }
 
-module.exports = profissao;
+module.exports = db.profissao;
 

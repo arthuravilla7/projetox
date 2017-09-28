@@ -1,7 +1,7 @@
-const conexao = require('../../config/database');
-const Sequelize = require('sequelize');
+'use strict'
 
-const Profissao = conexao.define('profissao', {
+module.exports = (conexao, Sequelize) => {
+  const Profissao = conexao.define('profissao', {
   id: {
     type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false
   },
@@ -10,16 +10,18 @@ const Profissao = conexao.define('profissao', {
   },
   nome : {
     type: Sequelize.STRING(45), allowNull: false
-  },
+  }
 },{
   // don't add the timestamp attributes (updatedAt, createdAt)
   timestamps: false,
   freezeTableName: true,
+  underscored: true
 });
 
+  return Profissao;
+}
+
 //Applying Item Table to database
-conexao.sync({force:false})
+//conexao.sync({force:false})
 
-
-module.exports = Profissao;
 
