@@ -21,7 +21,6 @@ module.exports = (conexao, Sequelize) => {
   return Profissao;
 }
 
-//Applying Item Table to database
-//conexao.sync({force:false})
+
 
 

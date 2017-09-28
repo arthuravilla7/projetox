@@ -19,6 +19,7 @@ db.conexao = conexao;
 //models/tables
 db.profissao = require('../api/model/profissao')(conexao, Sequelize)
 db.profissional = require('../api/model/profissional')(conexao, Sequelize)
+db.cliente = require('../api/model/cliente')(conexao, Sequelize)
 
 //relacionamentos
 db.profissao.hasMany(db.profissional, {foreignKey: 'profissao_exercida'})

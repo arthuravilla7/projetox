@@ -1,7 +1,7 @@
 const db = require('../../config/database');
 
-db.profissao.obterTodos = function(req, res, next){
-    db.profissao.findAll({
+db.cliente.obterTodos = function(req, res, next){
+    db.cliente.findAll({
     }).then(function(result){
       res.status(200).json(result)
     }, function(error){
@@ -9,10 +9,15 @@ db.profissao.obterTodos = function(req, res, next){
     })
 }
 
-db.profissao.alterar = function(req, res, next){
-    db.profissao.update({
+
+
+db.cliente.alterar = function(req, res, next){
+    db.cliente.update({
         nome: req.body.nome,
-        descricao: req.body.descricao
+        telefone: req.body.telefone,
+        celular: req.body.celular,
+        cpf_cnpj: req.body.cpf_cnpj,
+        email: req.body.email
     },  {
             where: {
                 id: {
@@ -27,13 +32,14 @@ db.profissao.alterar = function(req, res, next){
     })
 }
 
-db.profissao.criar = function(req, res, next){
-    db.profissao.create(req.body).then(function(result){
+db.cliente.criar = function(req, res, next){
+    console.log(req.body)
+    db.cliente.create(req.body).then(function(result){
       res.status(200).json(result);
     }, function(error){
       console.log(error);
     })
 }
 
-module.exports = db.profissao;
+module.exports = db.cliente;
 
