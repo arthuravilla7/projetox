@@ -20,11 +20,20 @@ db.conexao = conexao;
 db.profissao = require('../api/model/profissao')(conexao, Sequelize)
 db.profissional = require('../api/model/profissional')(conexao, Sequelize)
 db.cliente = require('../api/model/cliente')(conexao, Sequelize)
+db.atividade = require('../api/model/atividade')(conexao, Sequelize)
 
 //relacionamentos
 db.profissao.hasMany(db.profissional, {foreignKey: 'profissao_exercida'})
 //User.belongsTo(Company, {foreignKey: 'fk_company'}); // Adds fk_company to User
 db.profissional.belongsTo(db.profissao, {foreignKey: 'profissao_exercida'});
+
+db.profissional.hasMany(db.atividade, {foreignKey: 'profissional_responsavel'})
+db.atividade.belongsTo(db.profissional, {foreignKey: 'profissional_responsavel'})
+db.cliente.hasMany(db.atividade, {foreignKey: 'cliente_responsavel'})
+db.atividade.belongsTo(db.cliente, {foreignKey: 'cliente_responsavel'})
+
+
+
 
 conexao.authenticate().then(() => { 
     console.log('Connection has been established successfully.');
