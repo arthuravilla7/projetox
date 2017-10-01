@@ -3,6 +3,7 @@ const profissaoService = require('../api/services/profissaoService')
 const profissionalService = require('../api/services/profissionalService')
 const clienteService = require('../api/services/clienteService')
 const atividadeService = require('../api/services/atividadeService')
+const movimentoService = require('../api/services/movimentoService')
 
 module.exports = function(server){
 
@@ -26,9 +27,12 @@ module.exports = function(server){
   router.route('/criarprofissional').post(profissionalService.criar)
   router.route('/atualizarprofissional').post(profissionalService.alterar)
   //servico de atividade
-  router.route('/obteratividades').get(atividadeService.obterTodos)
+  //router.route('/obteratividades').get(atividadeService.obterTodos)
   router.route('/criaratividade').post(atividadeService.criar)
-  
+  router.route('/obteratividadesporcliente/:id').get(atividadeService.obterTodosPorCliente)
+  router.route('/obteratividadesporprofissional/:id').get(atividadeService.obterTodosPorProfissional)
+  //servico de movimentos de atividades
+  router.route('/criarmovimento').post(movimentoService.criar)
 
   //rota inicial
   router.get('/', function(req, res){

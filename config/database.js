@@ -21,17 +21,21 @@ db.profissao = require('../api/model/profissao')(conexao, Sequelize)
 db.profissional = require('../api/model/profissional')(conexao, Sequelize)
 db.cliente = require('../api/model/cliente')(conexao, Sequelize)
 db.atividade = require('../api/model/atividade')(conexao, Sequelize)
+db.movimento = require('../api/model/movimento')(conexao, Sequelize)
 
 //relacionamentos
 db.profissao.hasMany(db.profissional, {foreignKey: 'profissao_exercida'})
 //User.belongsTo(Company, {foreignKey: 'fk_company'}); // Adds fk_company to User
 db.profissional.belongsTo(db.profissao, {foreignKey: 'profissao_exercida'});
-
+//atividade - profissional
 db.profissional.hasMany(db.atividade, {foreignKey: 'profissional_responsavel'})
 db.atividade.belongsTo(db.profissional, {foreignKey: 'profissional_responsavel'})
+//atividade - cliente
 db.cliente.hasMany(db.atividade, {foreignKey: 'cliente_responsavel'})
 db.atividade.belongsTo(db.cliente, {foreignKey: 'cliente_responsavel'})
-
+//atividade - movimento
+db.atividade.hasMany(db.movimento, {foreignKey: 'atividade_responsavel'})
+db.movimento.belongsTo(db.atividade, {foreignKey: 'atividade_responsavel'})
 
 
 
