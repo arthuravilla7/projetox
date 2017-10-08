@@ -30,7 +30,8 @@ db.atividade.obterTodosPorCliente = function(req, res, next){
         include:[
             {model: db.movimento},
             {model: db.profissional},
-            {model: db.cliente}
+            {model: db.cliente},
+            {model: db.parcela}
         ]
     }).then(function(result){
       res.status(200).json(result)

@@ -4,6 +4,8 @@ const profissionalService = require('../api/services/profissionalService')
 const clienteService = require('../api/services/clienteService')
 const atividadeService = require('../api/services/atividadeService')
 const movimentoService = require('../api/services/movimentoService')
+const empresaService = require('../api/services/empresaService')
+const movimentoFollowUpService = require('../api/services/movimentoFollowUpService')
 
 module.exports = function(server){
 
@@ -14,6 +16,9 @@ module.exports = function(server){
   router.route('/teste').get(function(req, res, next){
     res.status(200).json("Teste realizado com sucesso!");
   });
+  //rotas de empresa
+  router.route('/criarempresa').post(empresaService.criar)
+  router.route('/atualizarempresa').post(empresaService.alterar)
   //rotas de cliente
   router.route('/obterclientes').get(clienteService.obterTodos)
   router.route('/criarcliente').post(clienteService.criar)
@@ -24,6 +29,8 @@ module.exports = function(server){
   router.route('/atualizarprofissao').post(profissaoService.alterar)
   //servico de profissional
   router.route('/obterprofissionais').get(profissionalService.obterTodos)
+  router.route('/obterprofissionaisporprofissao/:id').get(profissionalService.obterPorProfissao)
+  router.route('/obterprofissionaisporempresa/:id').get(profissionalService.obterPorEmpresa)
   router.route('/criarprofissional').post(profissionalService.criar)
   router.route('/atualizarprofissional').post(profissionalService.alterar)
   //servico de atividade
@@ -33,6 +40,8 @@ module.exports = function(server){
   router.route('/obteratividadesporprofissional/:id').get(atividadeService.obterTodosPorProfissional)
   //servico de movimentos de atividades
   router.route('/criarmovimento').post(movimentoService.criar)
+  //servico de follow up(acompanhamento de atividade)
+  router.route('/criarfollowup').post(movimentoFollowUpService.criar)
 
   //rota inicial
   router.get('/', function(req, res){

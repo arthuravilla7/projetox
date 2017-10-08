@@ -16,6 +16,9 @@ module.exports = (conexao, Sequelize) => {
     },
     curriculo : {
         type: Sequelize.TEXT, allowNull: false
+    },
+    email: {
+        type: Sequelize.STRING(45), allowNull: false
     }
 },{
     timestamps: false,

@@ -14,12 +14,12 @@ const db = require('../../config/database');
 }*/
 //criar obter movimento por id
 
-db.movimento.criar = function(req, res, next){
-    db.movimento.create(req.body).then(function(result){
+db.movimentoFollowUp.criar = function(req, res, next){
+    db.movimentoFollowUp.create(req.body).then(function(result){
       res.status(200).json(result);
     }, function(error){
       console.log(error);
     })
 }
 
-module.exports = db.movimento
+module.exports = db.movimentoFollowUp
