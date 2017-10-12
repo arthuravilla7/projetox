@@ -17,6 +17,7 @@ db.Sequelize = Sequelize;
 db.conexao = conexao;
 
 //models/tables
+db.usuarioAcesso = require('../api/model/usuarioAcesso')(conexao, Sequelize)
 db.profissao = require('../api/model/profissao')(conexao, Sequelize)
 db.profissional = require('../api/model/profissional')(conexao, Sequelize)
 db.cliente = require('../api/model/cliente')(conexao, Sequelize)
@@ -27,9 +28,12 @@ db.parcela = require('../api/model/parcela')(conexao, Sequelize)
 db.movimentoFollowUp = require('../api/model/movimentoFollowUp')(conexao, Sequelize)
 
 //relacionamentos
+db.cliente.belongsTo(db.usuarioAcesso, {foreignKey: 'dados_acesso'})
+db.profissional.belongsTo(db.usuarioAcesso, {foreignKey: 'dados_acesso'})
+db.empresa.belongsTo(db.usuarioAcesso, {foreignKey: 'dados_acesso'})
+
 db.profissao.hasMany(db.profissional, {foreignKey: 'profissao_exercida'})
-//User.belongsTo(Company, {foreignKey: 'fk_company'}); // Adds fk_company to User
-db.profissional.belongsTo(db.profissao, {foreignKey: 'profissao_exercida'});
+db.profissional.belongsTo(db.profissao, {foreignKey: 'profissao_exercida'})
 //atividade - profissional
 db.profissional.hasMany(db.atividade, {foreignKey: 'profissional_responsavel'})
 db.atividade.belongsTo(db.profissional, {foreignKey: 'profissional_responsavel'})
@@ -48,6 +52,8 @@ db.profissional.belongsTo(db.empresa, {foreignKey: 'empresa_responsavel'})
 //movimentoFollowUp - movimento
 db.movimento.hasMany(db.movimentoFollowUp, {foreignKey: 'movimento_responsavel'})
 db.movimentoFollowUp.belongsTo(db.movimento, {foreignKey: 'movimento_responsavel'})
+
+
 
 conexao.authenticate().then(() => { 
     console.log('Connection has been established successfully.');

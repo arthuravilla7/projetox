@@ -6,7 +6,7 @@ module.exports = (conexao, DataTypes) => {
     type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false
   },
   descricao:{
-    type: Sequelize.TEXT, allowNull: false,
+    type: DataTypes.TEXT, allowNull: false,
   },
   data_execucao: {
     type: DataTypes.DATE, allowNull: false,

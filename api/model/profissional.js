@@ -17,6 +17,12 @@ module.exports = (conexao, Sequelize) => {
     curriculo : {
         type: Sequelize.TEXT, allowNull: false
     },
+    telefone: {
+        type: Sequelize.STRING(15), allowNull: true
+      },
+    celular: {
+        type: Sequelize.STRING(15), allowNull: false
+    },
     email: {
         type: Sequelize.STRING(45), allowNull: false
     }

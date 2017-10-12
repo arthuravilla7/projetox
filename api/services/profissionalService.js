@@ -50,11 +50,39 @@ db.profissional.obterPorEmpresa = function(req, res, next){
 }
 
 db.profissional.criar = function(req, res, next){
-  db.profissional.create(req.body).then(function(result){
-      res.status(200).json(result);
+  db.usuarioAcesso.create({
+    login: req.body.login,
+    senha: req.body.senha,
+    perfil: 1,
+    ativo: req.body.ativo
+  }).then(function(result){
+    var profissional = {
+      nome: req.body.nome,
+      endereco: req.body.endereco,
+      cpf: req.body.cpf,
+      curriculo: req.body.curriculo,
+      telefone: req.body.telefone,
+      celular: req.body.celular,
+      email: req.body.login,
+      dados_acesso: result.id,
+      empresa_responsavel: req.body.empresa_responsavel,
+      profissao_exercida: req.body.profissao_exercida
+    }
+    db.profissional.create(profissional).then(function(result){
+      res.status(200).json(result)
     }, function(error){
+        db.usuarioAcesso.destroy({
+          where: {
+            id: profissional.dados_acesso
+          }
+    });
       console.log(error);
+      res.status(500).json(error);
     })
+  },function(error){
+      console.log(error.errors[0].message);
+      res.status(500).json(error.errors[0].message);
+  }) 
 }
 
 db.profissional.alterar = function(req, res, next){
