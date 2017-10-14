@@ -6,45 +6,61 @@ const atividadeService = require('../api/services/atividadeService')
 const movimentoService = require('../api/services/movimentoService')
 const empresaService = require('../api/services/empresaService')
 const movimentoFollowUpService = require('../api/services/movimentoFollowUpService')
+const authService = require('../api/services/authService')
+const auth = require('./auth')
 
 module.exports = function(server){
 
-  //API routes
-  const router = express.Router();
-  server.use('/api', router);
-  //rotas da API
-  router.route('/teste').get(function(req, res, next){
+  /*
+  * Rotas abertas
+  */
+  const openApi = express.Router()
+  server.use('/oapi', openApi)
+  openApi.post('/login', authService.login)
+  openApi.post('/validateToken', authService.validateToken)
+  openApi.post('/criarcliente', clienteService.criar)
+  openApi.post('/criarempresa', empresaService.criar)
+
+   //rota inicial
+   openApi.get('/', function(req, res){
+		res.status(200).render('index');
+  })  
+
+  /*
+  * Rotas protegidas por JWT
+  */
+  const protectedApi = express.Router();
+  server.use('/api', protectedApi);
+  protectedApi.use(auth)
+
+  protectedApi.route('/teste').get(function(req, res, next){
     res.status(200).json("Teste realizado com sucesso!");
   });
   //rotas de empresa
-  router.route('/criarempresa').post(empresaService.criar)
-  router.route('/atualizarempresa').post(empresaService.alterar)
+  //router.route('/criarempresa').post(empresaService.criar) rota aberta
+  protectedApi.route('/atualizarempresa').post(empresaService.alterar)
   //rotas de cliente
-  router.route('/obterclientes').get(clienteService.obterTodos)
-  router.route('/criarcliente').post(clienteService.criar)
-  router.route('/atualizarcliente').post(clienteService.alterar)
+  protectedApi.route('/obterclientes').get(clienteService.obterTodos)
+  //router.route('/criarcliente').post(clienteService.criar) rota aberta
+  protectedApi.route('/atualizarcliente').post(clienteService.alterar)
   //servico de profissao
-  router.route('/obterprofissoes').get(profissaoService.obterTodos)
-  router.route('/criarprofissao').post(profissaoService.criar)
-  router.route('/atualizarprofissao').post(profissaoService.alterar)
+  protectedApi.route('/obterprofissoes').get(profissaoService.obterTodos)
+  protectedApi.route('/criarprofissao').post(profissaoService.criar)
+  protectedApi.route('/atualizarprofissao').post(profissaoService.alterar)
   //servico de profissional
-  router.route('/obterprofissionais').get(profissionalService.obterTodos)
-  router.route('/obterprofissionaisporprofissao/:id').get(profissionalService.obterPorProfissao)
-  router.route('/obterprofissionaisporempresa/:id').get(profissionalService.obterPorEmpresa)
-  router.route('/criarprofissional').post(profissionalService.criar)
-  router.route('/atualizarprofissional').post(profissionalService.alterar)
+  protectedApi.route('/obterprofissionais').get(profissionalService.obterTodos)
+  protectedApi.route('/obterprofissionaisporprofissao/:id').get(profissionalService.obterPorProfissao)
+  protectedApi.route('/obterprofissionaisporempresa/:id').get(profissionalService.obterPorEmpresa)
+  protectedApi.route('/criarprofissional').post(profissionalService.criar)
+  protectedApi.route('/atualizarprofissional').post(profissionalService.alterar)
   //servico de atividade
   //router.route('/obteratividades').get(atividadeService.obterTodos)
-  router.route('/criaratividade').post(atividadeService.criar)
-  router.route('/obteratividadesporcliente/:id').get(atividadeService.obterTodosPorCliente)
-  router.route('/obteratividadesporprofissional/:id').get(atividadeService.obterTodosPorProfissional)
+  protectedApi.route('/criaratividade').post(atividadeService.criar)
+  protectedApi.route('/obteratividadesporcliente/:id').get(atividadeService.obterTodosPorCliente)
+  protectedApi.route('/obteratividadesporprofissional/:id').get(atividadeService.obterTodosPorProfissional)
   //servico de movimentos de atividades
-  router.route('/criarmovimento').post(movimentoService.criar)
+  protectedApi.route('/criarmovimento').post(movimentoService.criar)
   //servico de follow up(acompanhamento de atividade)
-  router.route('/criarfollowup').post(movimentoFollowUpService.criar)
+  protectedApi.route('/criarfollowup').post(movimentoFollowUpService.criar)
 
-  //rota inicial
-  router.get('/', function(req, res){
-		res.status(200).render('index');
-  })  
 };

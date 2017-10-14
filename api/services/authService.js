@@ -19,7 +19,7 @@ function login(req, res, next){
         }    
     }). then(function(result){
         if(result){
-            const token = jwt.sign(result, env.authSecret,{
+            const token = jwt.sign(result.dataValues, env.authSecret,{
                 expiresIn: '1 day'
             })
             var {login, perfil} = result
