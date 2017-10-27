@@ -22,7 +22,7 @@ module.exports = function(server){
   openApi.post('/criarempresa', empresaService.criar)
 
    //rota inicial
-   openApi.get('/', function(req, res){
+  openApi.get('/', function(req, res){
 		res.status(200).render('index');
   })  
 
