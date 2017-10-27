@@ -19,16 +19,27 @@ function login(req, res, next){
         }    
     }). then(function(result){
         if(result){
+            var {id, login, perfil} = result
             const token = jwt.sign(result.dataValues, env.authSecret,{
                 expiresIn: '1 day'
             })
-            var {login, perfil} = result
-            res.json({login, perfil, token})
+            db.empresa.findOne({
+                where:{
+                    dados_acesso:{
+                        $eq: id
+                    }
+                }
+            }).then(function(result){
+                var dadosEmpresa = result.dataValues
+                res.status(200).json({login, perfil, token, dadosEmpresa})
+            })
+            
+            
         }else{
-            res.status(400).json("Usuário/senha inválidos!");
+            res.status(401).json("Usuário/senha inválidos!");
         }
     }, function(error){
-        res.status(400).json("Usuário/senha inválidos!");
+        res.status(401).json("Usuário/senha inválidos!");
     }) 
   
 }
