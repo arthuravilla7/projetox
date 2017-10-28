@@ -51,8 +51,11 @@ module.exports = function(server){
   protectedApi.route('/obterprofissionais').get(profissionalService.obterTodos)
   protectedApi.route('/obterprofissionaisporprofissao/:id').get(profissionalService.obterPorProfissao)
   protectedApi.route('/obterprofissionaisporempresa/:id').get(profissionalService.obterPorEmpresa)
+  protectedApi.route('/obterprofissionaissemempresa/').get(profissionalService.obterTodosSemEmpresa)
   protectedApi.route('/criarprofissional').post(profissionalService.criar)
   protectedApi.route('/atualizarprofissional').post(profissionalService.alterar)
+  protectedApi.route('/desassociarprofissional').post(profissionalService.desassociar)
+  protectedApi.route('/associarprofissional').post(profissionalService.associar)
   //servico de atividade
   //router.route('/obteratividades').get(atividadeService.obterTodos)
   protectedApi.route('/criaratividade').post(atividadeService.criar)

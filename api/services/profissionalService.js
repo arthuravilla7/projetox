@@ -49,6 +49,44 @@ db.profissional.obterPorEmpresa = function(req, res, next){
   })
 }
 
+/*db.profissional.obterTodosSemEmpresa = function(req, res, next){
+  db.profissional.findAll({
+      where: {
+        empresa_responsavel :{
+          $eq: null
+        }
+      },
+      include:[
+        {model: db.profissao},          
+        {model: db.empresa}
+      ]
+  }).then(function(result){
+    res.status(200).json(result)
+  }, function(error){
+    console.log(error);
+  })
+}*/
+db.profissional.obterTodosSemEmpresa = function(req, res, next){
+  db.profissional.findAll({
+      include:[
+        {model: db.profissao},          
+        {model: db.empresa}
+      ],
+      where: { 
+        '$profissional.empresa_responsavel$' :{$eq: null},
+        $or : [
+          {'$profissional.nome$' : {$like: '%' + "james" + '%'}}, // aqui entra o request body
+          {'$profissao.nome$' : {$like: '%' + "req.body.parametroBusca" + '%' }}
+        ] 
+       
+      }
+  }).then(function(result){
+    res.status(200).json(result)
+  }, function(error){
+    console.log(error);
+  })
+}
+
 db.profissional.criar = function(req, res, next){
   db.usuarioAcesso.create({
     login: req.body.login,
@@ -105,6 +143,40 @@ db.profissional.alterar = function(req, res, next){
     }, function(error){
       console.log(error);
     })
+}
+
+db.profissional.desassociar = function(req, res, next){
+  db.profissional.update({
+      empresa_responsavel: null
+  },  {
+          where: {
+              id: {
+                  $eq: req.body.profissionalId
+              }
+          }
+      }
+  ).then(function(result){
+    res.status(200).json(result);
+  }, function(error){
+    console.log(error);
+  })
+}
+
+db.profissional.associar = function(req, res, next){
+  db.profissional.update({
+      empresa_responsavel: req.body.empresaId
+  },  {
+          where: {
+              id: {
+                  $eq: req.body.profissionalId
+              }
+          }
+      }
+  ).then(function(result){
+    res.status(200).json(result);
+  }, function(error){
+    console.log(error);
+  })
 }
 
 module.exports = db.profissional;
