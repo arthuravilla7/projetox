@@ -20,6 +20,7 @@ module.exports = function(server){
   openApi.post('/validateToken', authService.validateToken)
   openApi.post('/criarcliente', clienteService.criar)
   openApi.post('/criarempresa', empresaService.criar)
+  openApi.route('/criarprofissional').post(profissionalService.criar)
 
    //rota inicial
   openApi.get('/', function(req, res){
@@ -51,8 +52,8 @@ module.exports = function(server){
   protectedApi.route('/obterprofissionais').get(profissionalService.obterTodos)
   protectedApi.route('/obterprofissionaisporprofissao/:id').get(profissionalService.obterPorProfissao)
   protectedApi.route('/obterprofissionaisporempresa/:id').get(profissionalService.obterPorEmpresa)
-  protectedApi.route('/obterprofissionaissemempresa/').get(profissionalService.obterTodosSemEmpresa)
-  protectedApi.route('/criarprofissional').post(profissionalService.criar)
+  protectedApi.route('/obterprofissionaissemempresa/').get(profissionalService.obterTodosSemEmpresa)  
+  protectedApi.route('/obterprofissionaissemempresacomfiltro/:filtro').get(profissionalService.obterTodosSemEmpresaComFiltro)  
   protectedApi.route('/atualizarprofissional').post(profissionalService.alterar)
   protectedApi.route('/desassociarprofissional').post(profissionalService.desassociar)
   protectedApi.route('/associarprofissional').post(profissionalService.associar)

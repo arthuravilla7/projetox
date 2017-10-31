@@ -31,19 +31,18 @@ db.cliente.alterar = function (req, res, next) {
 }
 
 db.cliente.criar = function (req, res, next) {
-    console.log(req.body)
     db.usuarioAcesso.create({
-        login: req.body.login,
+        login: req.body.email,
         senha: req.body.senha,
         perfil: 2,
-        ativo: req.body.ativo
+        ativo: 1
     }).then(function (result) {
         var cliente = {
             nome: req.body.nome,
             telefone: req.body.telefone,
             celular: req.body.celular,
             cpf_cnpj: req.body.cpf_cnpj,
-            email: req.body.login,
+            email: req.body.email,
             dados_acesso: result.id
         }
         db.cliente.create(cliente).then(function (result) {

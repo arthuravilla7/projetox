@@ -49,7 +49,7 @@ db.profissional.obterPorEmpresa = function(req, res, next){
   })
 }
 
-/*db.profissional.obterTodosSemEmpresa = function(req, res, next){
+db.profissional.obterTodosSemEmpresa = function(req, res, next){
   db.profissional.findAll({
       where: {
         empresa_responsavel :{
@@ -65,8 +65,9 @@ db.profissional.obterPorEmpresa = function(req, res, next){
   }, function(error){
     console.log(error);
   })
-}*/
-db.profissional.obterTodosSemEmpresa = function(req, res, next){
+}
+
+db.profissional.obterTodosSemEmpresaComFiltro = function(req, res, next){
   db.profissional.findAll({
       include:[
         {model: db.profissao},          
@@ -75,8 +76,8 @@ db.profissional.obterTodosSemEmpresa = function(req, res, next){
       where: { 
         '$profissional.empresa_responsavel$' :{$eq: null},
         $or : [
-          {'$profissional.nome$' : {$like: '%' + "james" + '%'}}, // aqui entra o request body
-          {'$profissao.nome$' : {$like: '%' + "req.body.parametroBusca" + '%' }}
+          {'$profissional.nome$' : {$like: '%' + req.params.filtro + '%'}}, // aqui entra o request body
+          {'$profissao.nome$' : {$like: '%' + req.params.filtro + '%' }}
         ] 
        
       }
@@ -89,10 +90,10 @@ db.profissional.obterTodosSemEmpresa = function(req, res, next){
 
 db.profissional.criar = function(req, res, next){
   db.usuarioAcesso.create({
-    login: req.body.login,
+    login: req.body.email,
     senha: req.body.senha,
     perfil: 1,
-    ativo: req.body.ativo
+    ativo: 1
   }).then(function(result){
       var profissional = {
         nome: req.body.nome,
@@ -101,7 +102,7 @@ db.profissional.criar = function(req, res, next){
         curriculo: req.body.curriculo,
         telefone: req.body.telefone,
         celular: req.body.celular,
-        email: req.body.login,
+        email: req.body.email,
         dados_acesso: result.id,
         empresa_responsavel: req.body.empresa_responsavel,
         profissao_exercida: req.body.profissao_exercida

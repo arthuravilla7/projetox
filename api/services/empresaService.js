@@ -37,10 +37,10 @@ db.empresa.alterar = function (req, res, next) {
 db.empresa.criar = function (req, res, next) {
     console.log(req.body)
     db.usuarioAcesso.create({
-        login: req.body.login,
+        login: req.body.email,
         senha: req.body.senha,
         perfil: 0,
-        ativo: req.body.ativo
+        ativo: 1
     }).then(function (result) {
         var empresa = {
             razao_social: req.body.razao_social,
@@ -51,7 +51,7 @@ db.empresa.criar = function (req, res, next) {
             telefone: req.body.telefone,
             celular: req.body.celular,
             cnpj: req.body.cnpj,
-            email: req.body.login,
+            email: req.body.email,
             dados_acesso: result.id
         }
         db.empresa.create(empresa).then(function (result) {
