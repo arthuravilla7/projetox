@@ -23,17 +23,31 @@ function login(req, res, next){
             const token = jwt.sign(result.dataValues, env.authSecret,{
                 expiresIn: '1 day'
             })
-            db.empresa.findOne({
-                where:{
-                    dados_acesso:{
-                        $eq: id
+            if(perfil === 0){
+                db.empresa.findOne({
+                    where:{
+                        dados_acesso:{
+                            $eq: id
+                        }
                     }
-                }
-            }).then(function(result){
-                var dadosEmpresa = result.dataValues
-                res.status(200).json({login, perfil, token, dadosEmpresa})
-            })
-            
+                }).then(function(result){
+                    var dadosEmpresa = result.dataValues
+                    res.status(200).json({login, perfil, token, dadosEmpresa})
+                })
+            }
+            else if(perfil === 1){
+                db.profissional.findOne({
+                    where:{
+                        dados_acesso:{
+                            $eq: id
+                        }
+                    }
+                }).then(function(result){
+                    var dadosProfissional = result.dataValues
+                    res.status(200).json({login, perfil, token, dadosProfissional})
+                })
+            }
+            //falta fazer o de cliente
             
         }else{
             res.status(401).json("Usuário/senha inválidos!");
