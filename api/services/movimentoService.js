@@ -15,6 +15,7 @@ const db = require('../../config/database');
 //criar obter movimento por id
 
 db.movimento.criar = function(req, res, next){
+    console.log(req.body);
     db.movimento.create(req.body).then(function(result){
       res.status(200).json(result);
     }, function(error){

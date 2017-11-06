@@ -62,6 +62,7 @@ module.exports = function(server){
   protectedApi.route('/criaratividade').post(atividadeService.criar)
   protectedApi.route('/obteratividadesporcliente/:id').get(atividadeService.obterTodosPorCliente)
   protectedApi.route('/obteratividadesporprofissional/:id').get(atividadeService.obterTodosPorProfissional)
+  protectedApi.route('/obteratividadesporempresa/:id').get(atividadeService.obterTodosPorEmpresa)
   //servico de movimentos de atividades
   protectedApi.route('/criarmovimento').post(movimentoService.criar)
   //servico de follow up(acompanhamento de atividade)

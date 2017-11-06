@@ -47,8 +47,18 @@ function login(req, res, next){
                     res.status(200).json({login, perfil, token, dadosProfissional})
                 })
             }
-            //falta fazer o de cliente
-            
+            else if(perfil === 2){
+                db.cliente.findOne({
+                    where:{
+                        dados_acesso:{
+                            $eq: id
+                        }
+                    }
+                }).then(function(result){
+                    var dadosCliente = result.dataValues
+                    res.status(200).json({login, perfil, token, dadosCliente})
+                })
+            }
         }else{
             res.status(401).json("Usuário/senha inválidos!");
         }

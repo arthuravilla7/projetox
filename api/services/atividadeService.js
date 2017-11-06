@@ -58,4 +58,22 @@ db.atividade.obterTodosPorProfissional = function(req, res, next){
     })
 }
 
+db.atividade.obterTodosPorEmpresa = function(req, res, next){
+  console.log(req.params);
+  db.atividade.findAll({
+      include:[
+          {model: db.movimento},
+          {model: db.profissional},
+          {model: db.cliente}
+      ],
+      where: {
+        '$profissional.empresa_responsavel$' :{$eq: req.params.id}
+      }
+  }).then(function(result){
+    res.status(200).json(result)
+  }, function(error){
+    console.log(error);
+  })
+}
+
 module.exports = db.atividade;
