@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken')
 const db = require('../../config/database');
-const env = require('../../.env')
+const env = require('../../env')
 
 function login(req, res, next){
     const login = req.body.login || ''

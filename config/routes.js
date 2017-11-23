@@ -26,7 +26,9 @@ module.exports = function(server){
   openApi.get('/', function(req, res){
 		res.status(200).render('index');
   })  
-
+  openApi.route('/teste').get(function(req, res, next){
+    res.status(200).json("Teste realizado com sucesso!");
+  });
   /*
   * Rotas protegidas por JWT
   */

@@ -1,7 +1,7 @@
 'use strict'
 
 const jwt = require('jsonwebtoken')
-const env = require('../.env')
+const env = require('../env')
 
 module.exports = function(req, res, next){
     

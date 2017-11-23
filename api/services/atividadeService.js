@@ -28,10 +28,17 @@ db.atividade.obterTodosPorCliente = function(req, res, next){
           cliente_responsavel: req.params.id
         },
         include:[
-            {model: db.movimento},
-            {model: db.profissional},
-            {model: db.cliente},
-            {model: db.parcela}
+          { 
+            model: db.movimento,
+            include: [
+              {
+                model: db.movimentoFollowUp,
+              }
+            ]    
+          },
+          {model: db.profissional},
+          {model: db.cliente},
+          {model: db.parcela}
         ]
     }).then(function(result){
       res.status(200).json(result)
@@ -47,9 +54,16 @@ db.atividade.obterTodosPorProfissional = function(req, res, next){
           profissional_responsavel: req.params.id
         },
         include:[
-            {model: db.movimento},
-            {model: db.profissional},
-            {model: db.cliente}
+          { 
+            model: db.movimento,
+            include: [
+              {
+                model: db.movimentoFollowUp,
+              }
+            ]    
+          },
+          {model: db.profissional},
+          {model: db.cliente}
         ]
     }).then(function(result){
       res.status(200).json(result)
@@ -62,7 +76,14 @@ db.atividade.obterTodosPorEmpresa = function(req, res, next){
   console.log(req.params);
   db.atividade.findAll({
       include:[
-          {model: db.movimento},
+          { 
+            model: db.movimento,
+            include: [
+              {
+                model: db.movimentoFollowUp,
+              }
+            ]    
+          },
           {model: db.profissional},
           {model: db.cliente}
       ],
