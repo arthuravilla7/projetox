@@ -21,6 +21,7 @@ module.exports = function(server){
   openApi.post('/criarcliente', clienteService.criar)
   openApi.post('/criarempresa', empresaService.criar)
   openApi.route('/criarprofissional').post(profissionalService.criar)
+  openApi.route('/obterprofissoes').get(profissaoService.obterTodos)
 
    //rota inicial
   openApi.get('/', function(req, res){
@@ -47,7 +48,7 @@ module.exports = function(server){
   //router.route('/criarcliente').post(clienteService.criar) rota aberta
   protectedApi.route('/atualizarcliente').post(clienteService.alterar)
   //servico de profissao
-  protectedApi.route('/obterprofissoes').get(profissaoService.obterTodos)
+  //protectedApi.route('/obterprofissoes').get(profissaoService.obterTodos)
   protectedApi.route('/criarprofissao').post(profissaoService.criar)
   protectedApi.route('/atualizarprofissao').post(profissaoService.alterar)
   //servico de profissional
