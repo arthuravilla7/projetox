@@ -45,7 +45,7 @@ function login(req, res, next){
                     include:[
                         {model: db.profissao},          
                         {model: db.empresa}
-                      ]
+                    ]
                 }).then(function(result){
                     var dadosProfissional = result.dataValues
                     res.status(200).json({login, perfil, token, dadosProfissional})
@@ -57,11 +57,7 @@ function login(req, res, next){
                         dados_acesso:{
                             $eq: id
                         }
-                    },
-                    include:[
-                        {model: db.profissao},          
-                        {model: db.empresa}
-                    ]
+                    }
                 }).then(function(result){
                     var dadosCliente = result.dataValues
                     res.status(200).json({login, perfil, token, dadosCliente})
