@@ -82,5 +82,4 @@ db.atividade.obterTodosPorEmpresa = function(req, res, next){
     console.log(error);
   })
 }
-
 module.exports = db.atividade;
